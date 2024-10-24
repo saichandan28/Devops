@@ -12,7 +12,7 @@ git add names.txt : add 'names.txt' for the tracking onto the staging area.
 
 Staging Area : The modified/tracked file changes are ready to be stored in the repository (commit).
 
-git  
+git restore --staged <file_name> : To remove file_name from staging area which was about to get commited. 
 
 
 git commit -m "added file names.txt" : the changes are commited and stored in the local repository.
