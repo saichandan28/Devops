@@ -1,0 +1,18 @@
+Git Notes:
+##########
+
+git init : initiates the git repository on your local directory.
+
+git status : Tracks the changes in the git repo and shows the current status.
+
+Tracking changes : New file added, file deleted, file modified, etc.
+
+git add . : add all the files in the current project directory onto the staging area.
+git add names.txt : add 'names.txt' for the tracking onto the staging area.
+
+Staging Area : The modified/tracked file changes are ready to be stored in the repository (commit).
+
+git  
+
+
+git commit -m "added file names.txt" : the changes are commited and stored in the local repository.
