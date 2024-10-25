@@ -25,3 +25,123 @@ git stash : all the changes which are done from the previous commit will be stag
 git stash pop : all the stashed changes (which were stashed earlier) will now be brought back to the local repo.
 
 git stash clear : all the stashed changes (which were stashed earlier) will be deleted permanently and we will not be able to recover those changes.
+
+#################################################
+## Working with remote repository using github ##
+
+# Following command will attach a remote repository of Github to your local repository
+git remote add origin https://github.com/saichandan28/Devops.git
+
+git push origin main : Push the initial content to the remote repo.
+
+git remote -v : this will display the remote branch(to which the current fetch or push will occur) and the url.
+
+#################################################
+## Git branches ##
+# Whenever we are making changes to the code by adding new feature or fixing some bug, we have to work that in a saperate branch and not the main (origin) branch.
+
+# Which means you should never commit on the main (origin) branch.
+# In open source projects : 
+
+git branch feature1 : this will create a new branch caller 'feature1'.
+
+git checkout <branch_name> : the head will now come to the mentioned <branch_name> so all the commits will start here and not the other branches.
+
+git merge feature1 : This will merge the code changes of 'feature1' branch into the main branch.
+
+#################################################
+## Git copy of a remote project and contribute to it ##
+# Use fork command to get the copy of an opensource project from anyone's account in github to your own account.
+# You cannot directly make any changes to the project of another's account.
+# Once you fork code from someone's account you can make any changes in that, since its a copy of the project from some other account which is present now in your account.
+# The forked project's URL (which is present in someone other's account) is by default called 'upstream URL'.
+git remote add upstream <Forked_Project's_URL>
+# So the Same project which is forked in your personal account is called 'origin' and the actual project (other's account) is called the 'upstream' branch or URL.
+
+#################################################
+## Creating a pull request ##
+# Once you get a forked project in your remote repo, fetch the same to your local
+# Never do any commits on the main branch create a named branch and start fixing the issue.
+# Once you complete fixing some issue or a bug in the forked project's named branch(local).
+# Push your code to your personal forked remote project. 
+# You cannot push to upstream project since you do not have access.
+git push origin feature1
+# Post that create a pull request to the actual owner's project to make your code merge into the actual project.
+# Remember you can create only one Pull Request (PR) for a branch created by you in your repo.
+# Once after creating a PR, if you do further commits on the same branch then these changes will get reflected in the same PR and the owner can see those commits.
+# Hence there can be only one PR for a branch.
+# So create separate branches for all the separate bugs you are trying to fix
+#################################################
+
+## Working with Pull requests ##
+# Suppose you created a PR and then post that you did 2 additional commits, there will be total 3 commits visible in the PR for merge.
+# Now you want to discard the 2 additional commits and want just to have the original commit in the PR.
+git reset <hash_value_of_initial_commit>
+git status 	: check status (It will be saying some changes are not tracked these are the changes done in subsequent 2 commits)
+git add .	: Stage the untracked changes
+git stash	: stash the untracked changes
+git log		: Now we are left with clean initial commit with the 2 subsequent changes stashed.
+# Now we are good at our Local repo so the 2 additional commits are removed from the log and they are in the stash area.
+# Now we need to force push this to the online repo since the online repo has 2 extra commits that my local repo does not. And remember the commits are interlinked.
+git push origin feature1 -f
+
+#################################################
+
+## Merging Pull Request ##
+# Some other contributor merged his code into the main branch and that commits are not present in my forked main branch
+# To make sure the upstream's main branch and my own forked main branch is maintained at same commit level.
+
+## Method 1:
+# In local:
+git checkout main
+git status		: (here i can see only n commits) 
+# But in real actual project there could be n+x commits which are mearged into the main branch by some other contributers
+# First is we need to fetch all these n+x commits.
+git fetch --all --prune		: --all (means all the branches), --prune (means the ones that are deleted, they will also be fetched)
+git checkout main
+git reset --hard upstream/main	: Reset main branch of my origin to the main branch of upstream
+git log				: Now you will be able to see the n+x commits in your local main branch
+# Now my local main branch is same as the actual project but my forked main is still lagging behind. So lets change that one as well
+git push origin main		: Now my forked main is also showing n+x commits (same as the actual project).
+
+## Method 2:
+# In local:
+git pull upstream main		: This one command will do the fetch and reset
+git log 			: Now you will be able to see the n+x commits in your local main branch
+# Again all the new changes are in local, lets push them to forked
+git push origin main
+
+#################################################
+
+## Merge conflicts ##
+
+# You made change on line #3
+# Some one else also made change on the same line #3
+
+
+#################################################
+
+## Squashing your commits ##
+git branch temp
+git checkout temp
+# whenver you create a new branch, it will get created from the head.
+# So whenever you create a new branch, make sure your main branch is upto date.
+touch temp1.txt ; git add . ; git commit -m "added temp1.txt"
+touch temp2.txt ; git add . ; git commit -m "added temp2.txt"
+touch temp3.txt ; git add . ; git commit -m "added temp3.txt"
+git log
+# I want to merge all the above 3 commits into one single commit;
+git rebase -i <hash_value_of_first_commit>
+# p - pick
+# s - squash : this will use the commit but melds the changes into the previous commit
+
+#Method 2 this we can use to reduce one or more commits which we have done:
+#suppose we have commits like 1,2,3,4,...,n
+git log				: it shows commits from 1 to n
+git reset <hash_value_3>
+git status			: it will show all the rest modification from commit 4 to n as untracked
+git add .			: all the changes of commit from 4 to n will be put to staging area
+git commit -m "merged multi commits into one"
+git log				: it shows commits from 1 to 4a now.
+
+#################################################
