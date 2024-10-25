@@ -14,5 +14,14 @@ Staging Area : The modified/tracked file changes are ready to be stored in the r
 
 git restore --staged <file_name> : To remove file_name from staging area which was about to get commited. 
 
-
 git commit -m "added file names.txt" : the changes are commited and stored in the local repository.
+
+git log : shows all the commits that were done in the current repo.
+
+git reset <commit_hash_value> : removes all the subsequent commits done after the given <commit_hash_value>
+
+git stash : all the changes which are done from the previous commit will be staged (stashed) to backstage and we get the project to the last commit state and we can do the new coding from that point.
+
+git stash pop : all the stashed changes (which were stashed earlier) will now be brought back to the local repo.
+
+git stash clear : all the stashed changes (which were stashed earlier) will be deleted permanently and we will not be able to recover those changes.
