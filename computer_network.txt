@@ -1,0 +1,19 @@
+### Computer Networking Course ###
+##################################
+
+Computers which are connected together is called a network.
+
+Internet : Connection between these Computer networks is called Internet. Its collection of Computer networks.
+
+# How did it start?
+
+During World war : They wanted to do the communication between different computers.
+
+There were 4 computers: MIT, Stanford, UCLA, Utah 
+
+# Protocol : We need some steps to do any action.
+		We are trying to send different types of files.
+		When you are sending an email/Message/Confidential Info : The entire packets are to be transferred to the correct end point and there should be no change in between during the transfer.
+		While you are broadcasting : There is no hard rule that all the info has to reach the endpoint. There could be some frame drops happening.
+		So all such transactions are governed by some predefined rules which we call as Protocols.
+
