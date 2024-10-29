@@ -11,9 +11,153 @@ During World war : They wanted to do the communication between different compute
 
 There were 4 computers: MIT, Stanford, UCLA, Utah 
 
+# Client	: Machine sends request and receives info from the server.
+
+# Server	: Acts as a mediator between client machice and data and serves the required info.
+
 # Protocol : We need some steps to do any action.
 		We are trying to send different types of files.
 		When you are sending an email/Message/Confidential Info : The entire packets are to be transferred to the correct end point and there should be no change in between during the transfer.
 		While you are broadcasting : There is no hard rule that all the info has to reach the endpoint. There could be some frame drops happening.
 		So all such transactions are governed by some predefined rules which we call as Protocols.
+
+		In plain terms protocols are set of rules defined by the Internet Society.
+
+		The internet society creates all these protocols. Its a group of experts who create and govern all these protocols.
+		www.internetsociety.org
+
+# Types of Protocols : 
+		a. TCP : Transmission Control Protocol : Idea is the data will reach its destination and the data will not get corrupted on the way. e.g. Text Msg
+		b. UDP : User Datagram Protocol	: Idea here is we do not have any restriction that 100% of the data need to reach the destination. e.g. Video Calls
+		c. HTTP : Hyper Text Transfer Protocol : This is being used by the web, browsers etc
+		d. HTTPS : Secure HTTP
+		e. DHCP : Dynamic Host Configuration Protocol.
+
+
+# How Data Transfer happens :
+		Suppose there is a large file (movie/xml/json etc) the entire file will not be sent in one go to the destination. Everything is sent in small chunks.
+		So these chunks of data are called packets in the Networking terms.
+
+# Packets : Small chunks of data which are the units for the network transfer.
+
+# IP Address : This is a combination of numbers which is used to identify a server or node in the Network/Internet.
+		Every single server/device on the internet which can talk to each other has an IP address tagged to it.
+		IP4 Address Format : (X.X.X.X) where x -> [0-255]
+		When you type 'google.com' the request will get resolved with an IP address.
+		There are different Classes of IP Addresses.
+		Some of the IP Addresses are reserved and cannot be used for other purpose.
+		Command to get your IP address 'curl ifconfig.me -s'
+
+		ISP : Internet Service Provider
+		Your Modem which is provided by the ISP will have a global IP address. (Global IP)
+		All the devices connected to this Modem/Router are going to have the same IP Address
+		Modem intern will allocate separate IP address (Local IP) to each connected Device.
+		How does it allocates the IP : it uses DHCP protocol to assign an IP to a device.
+		
+		If you make request to the 'google.com' then google server will see the request from (Global IP address)
+		Any of the devices which are connected to the Modem when make request, it goes to the internet with the Global IP.
+		And when the response is received, now the modem/router will decide which was the device which created the request.
+		This deciding of the Device by modem is done using NAT (Network Access Translator).
+
+		Suppose, Now the Modem has decided that Device 1 had requested for some data and it has got it.
+		How can it identify which was the application which had requested for the data inside the device?
+		This is decided by the Ports that the application is using.
+
+		* The device which made request is identified by the IP address.
+		* The application (within Device) which made request is identified by the port which it is using.
+
+# PORTS : Ports are basically 16 bit numbers.
+		So total ports possible are 2^16 (approx 65000)
+		Web pages are using HTTP protocol. All the HTTP interations happen on PORT# 80
+		0 to 1023		|	Reserved ports
+		1024 to 49152	|	Registered for some applications eg Oracle DB, SQL server etc.
+		49153 to end	|	Free to use
+
+		Reserved Ports: These are pre defined and reserved ports which perform certain actions in the System and cannot be used for any other protocol /usage of your application.
+		Pre defined default ports 
+		80 				|	HTTP 
+		1521			|	Oracle DB
+		2707			|	Mongo DB
+
+# Speed 1 mbps : 10^6 Bits per second.
+
+# How does communcation between two computers happens?
+		There are two things by which the communication happens:
+		i. Guided way		: Path is already predefined. E.g. Two computers connected with LAN cable.
+		ii. Unguided way	: Path is not predefined. 
+
+		All our continents and countries are connected via the wire network which provides the internet connectivity.
+		These wires/networks are owned by big companies and they are called the Tire1 (ISPs) Internet Service Providers (e.g. In India its TATA).
+		The Tire1 ISPs provide access to the Tire2 ISPs and these are smaller companies. E.g. within the country
+		The Tire2 ISPs provide access to the Tire3 ISPs E.g. Airtel, Jio networks.
+		The Tire3 ISPs provide access to the general public.
+
+# Types of networks:
+		LAN	: Local Area Network e.g.: home, office.
+		MAN : Metropolitan Area network. e.g. : Across a city.
+		WAN : Across Countries e.g.: Using Optical Fibre Cables.
+
+		Internet is actually the collection of all these three.
+		Its a lot of LANs connected together to each other via MANs and many MANs connected via WANs.
+
+		In WAN there are types again
+			a. SoNET : Synchronous Optical Networking. : basically it carries the data using Optical fibres and cover large distances.
+			b. Frame relay : It is one of the way we can connect our LAN with the WAN.
+
+# Basics 
+		Modem : Machine which is used to convert the digital signals to analog signals and vice versa.
+				e.g. The digital data which modem gets from a device is converted to some electric signals which can be used to transmit to other modem to rebuild the original digital data.
+		Router : Router is a device which routes the data packets based on their IP addresses.
+
+# TOPOLOGIES: 
+		1. Bus	:	Here, Every system in the Bus topology is connected to one Chord or backbone.
+					Problem : 	If central Chord/Backbone breaks then all the NW is down
+								Only one single device can send message at a point in time.
+		2. Ring	:	Here, Every device in the NW is connected to two other devices, forming a ring like structure.
+					Problem :	Suppose there are 10 devices connected (A...J) in this topology, 
+								If we want to send message from A to F, 
+								Then Multiple hops are to be done to send a message 
+									e.g. A -> B -> C -> D -> E -> F
+										 or
+										 A -> J -> I -> H -> G -> F
+								If the network between two or more systems breaks, then the entire NW can collapse.
+		3. Star	:	Here, there is one central (controlling) device that is connected to all the devices in Network.
+					All communcation happens via the Central device.
+					Problem	:	Central device is down then Network will go down.
+		4. Tree	:	Combination of BUS and STAR topology;
+					Here Many Stars are connected with one BUS chord.
+		5. Mesh	:	Every device in the network is connected to every other device.
+					Problems :	Expensive, too many wires, if any new device is added too much new configurations needed.
+
+# Structure of Network :
+		OSI Model : Open Systems Interconnection Model
+					This is a standard/Rules how two devices/machines can interact with each other.
+		There are Seven layers in the OSI Model.
+		1. Application Layer
+		2. Presentation Layer
+		3. Session Layer
+		4. Transport Layer
+		5. Network Layer
+		6. Data Link Layer
+		7. Physical Layer
+
+
+		1. Application Layer : It is basically implemented in Software. It is basically the appliactions (e.g.: Browsers, apps, messaging apps etc)
+
+		2. Presentation Layer : The App layer sends and receives data to and from Presentation layer.
+								This Layer takes the data which is in text/human readable form (images) and converts into the Machine representable binary format.
+								ie From ASCII to EBCDIC this process is known as Translation.
+								Further to it, the Data gets Encoded, compressed and Encrypted. It Provides abstraction.
+								Here it uses SSL(Secured Socket Layer) protocol for the encryption and Decryption.
+								Presentation Layer assumes that the layers below it will do all their part of the job on their own.
+		3. Session Layer : 	This layes receives/sends data from/to the Presentation layer.
+								The session layer's protocol basically helps in setting up and managing the connections and it enables the sending and receiving of data followed by termination of the connected sessions.
+								here Authentication , Authorization is taken care.
+								Session Layer also assumes that it will just establish the session and the rest of activity (like transport etc) will be taken care by the rest layers.
+		4. Transport Layer : 	
+
+
+
+
+
 
