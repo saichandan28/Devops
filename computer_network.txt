@@ -154,10 +154,174 @@ There were 4 computers: MIT, Stanford, UCLA, Utah
 								The session layer's protocol basically helps in setting up and managing the connections and it enables the sending and receiving of data followed by termination of the connected sessions.
 								here Authentication , Authorization is taken care.
 								Session Layer also assumes that it will just establish the session and the rest of activity (like transport etc) will be taken care by the rest layers.
-		4. Transport Layer : 	
+								Suppose If you are using amazon for shopping then the session Layer maintains a session for your device on the server of amazon/flipkart. Once all the transaction is complete it will logout your session.
+		4. Transport Layer : 	Now the Transport layer is responsible for transporting the data from the source to the Destination.
+								It makes use of TCP or UDP protocol to transfer the data.
+								There are 3 process through which the data gets transported
+								a. Segmentation :	So the data that is received from the segment layer is divided into small data units called segments.
+													Every Segment will contain the source and the destination's Port# and the sequence#.
+													(Sequence# will basically help reassemble the segments in the correct order)
+													All the segments will not be transferred at once, they will be transferred in chunks and the sequnce# helps them reasseble in correct order.
+								b. Flowcontrol :	The transport layer controls the amount of data that is being transferred. (it will control the speed as per the available bandwidth)
+								c. Error control :	If there are some packets that got lost or got corrupted the transport layer manages these errors.
+													The transport layer addes checksum to every data segments which will be used to control the error/loss/corruption of segments at the receiver end.
+								It Basically makes use protocols like TCP (connection oriented transmission). Here the Data transfer is slow compared to UDP, because once the data is received at the destination it sends back the acknowlegdement saying the data transfer is complete 100%.
+								e.g. Email, File Transfer protocol.
+								UDP (connection less oriented transmission) UDP is faster because it does not provide any feedback if the data has got lost. So whatever data you have, just keep on sending.
+								e.g. Video Conferencing, Gaming. Here some of the datapackets got lost.
+		5. Network Layer :		Network layer basically works for the transmission of the received data segments from one computer to the another that is located in a different network.
+								The Router lives here.
+								Till the Transport layer we were talking about our own device and network.
+								In the Network layer there are many other devices which we communicate to. These devices live in different network.
+								Function of network layer is logical addressing. So, IP addressing done in the network layer is known as logical addressing. Every device has its own IP address.
+								Network Layer assigns Sender's's and 'Receiver's IP address to every Segment to form an IP packet so that every Data packet reaches the correct destination.
+								Also it perform routing : So moving one data packet from source to Destination.
+								So basically it get the Source and Destination IPs and finds out the best route to transfer the data packets using Routing protocols and *Diestras algorithm*.
+								Routing protocols and transmission of packets happens at Network layer.
+								Load balancing also happens here.
+		6. Data Link Layer : 	Data Link Layer allows to directly communicate with the computers and hosts.
+								Data Link Layer receives to Data packet from the Network Layer, the data packet contains the Source and Destination IP addresses along with the network masking.
+								Further to it Data Link layer addes the physical addressing.
+								Physical addressing : Basically physical addressing is MAC addresses. So the Sender's and Receiver's MAX addresses are assigned to the data packet.
+								Once the MAC addresses are assigned to the data packets it forms Frames.
+								MAC address : its a 12 digit alphanumeric String of the Network Interface of your computer.
+								Remember there are multiple Network Interfaces which gets attached to one Single computer/device. E.g. Multiple Network adaptors added to one computer, WiFi, bluetooth, etc.
+								Data Link Layer performs Two functions:
+									It allows the upper layers of the OSI model to access the Frames and stuff.
+									It also controls how data is placed and received from the medias using techiniques known as Media Access Control.
+		7. Physical Layer : 	It contains Hardwares and wires and other conducting mediums. Which help in transmitting the signals as electric signals.
+								It could be trassmitted using an Optical Fibre or Radio Signals something like that.
+								The Data received to this layer are converted to Bits and transferred to the receiver Device as Signals.
+								In the Receiver device these signals are captured, converted to the data and given to the upstream Layers.
+
+#######################################################################
+
+Another Model : TCP/IP Model 
+
+	This Model is similar to OSI model but has some differences in the layers.
+	There are only 5 layers here.
+
+	1. Application Layer
+	2. Transport Layer
+	3. Network Layer
+	4. Data Link Layer
+	5. Physical Layer
+	
+	This is very commonly used Model and the OSI model is less used.
+	
+	1. Appliaction Layer:
+			This is the layer where user interacts with. There are browsers, applications etc, with which the user interacts.
+			This layer generally resides on the users' devices.
+
+	
+#######################################################################
+
+Network devices:
+
+	1.	Repeater	-	A repeater operates at the physical layer. Its job is to regenerate the signal over the same network before the signal becomes too weak or corrupted so as to extend the length to which the signal can be transmitted over the same network.
+						An ipmortant point to be noded about repeaters is that they do not amplify the signal. When the signal becomes weak, they copy the signal bit by bit and regenerate it at the original strength. It is a 2 port device.
+	2.	Hub			-	A hub is basically a multiport repeater. A hub connects multiple wires coming from different branches, for example, the connector in star topology which connects different stations.
+						Hubs cannot filter data, so ata packets are sent to all connected devices. In other words, collision domain of all hosts connected through Hub remains one. Also, they do not have intelligence to find out best path for data packets which leads to inefficiencies and wastage.
+
+						Types of Hub
+						a. Active Hub : THese are the hubs which have their own power supply and can clean, boost and relay the signal along the network. It serves both as a repeater as well as wiring center. These are used to extend maximum distance between nodes.
+						b. Passive Hub : These are the hubs which collect wiring from nodes and power supply from active hub. These hubs relay signals onto the network without cleaning and boosting them and can't be used to extend distance between nodes.
+	
+	3.	Bridge		- 	A bridge operates at data link layer. A bridge is a repeater, with add on functionality of filtering content by reading the MAC addresses of source and destination. It is also used for interconnecting two LANs working on the same protocol. It has a single input and single output port, thus making it a 2 port device.
+						Types of Bridges:
+						a. Transparent Bridges : These are the brigde in which the stations are completely unaware of the bridge's existence i.e. whether or not a bridge is added or deleted from the network, reconfiguration of the stations is unnecessary. These bridges makes use of two processes i.e. bridge forwarding and bridge learning.
+						b. Source Routing Bridges : In these bridges, routing operation is performed by source station and the frame specifies which route to follow. The hot can discover frame by sending a special frame called discovery frame, which spreads through the entire network using all possible paths to destination.
+	
+	4.	Switch		-	A switch is a multi port bridge which a buffer and a design that can boost its efficiency(large number of ports imply less traffic) and performance. 
+						Switch is data link layer device. 
+						Switch can perform error checking before forwarding data, that makes it very efficient as it does not forward packets that have errors and forward good packets selectively to correct port only. 
+						In other words, switch divides collision domain of hosts, but broadcast domain remains same.
+	5.	Routers		-	A router is a device like a switch that routes data packets based on their IP addresses. Router is mainly a Network Layer device.
+						Routers normally connect LANs and WANs together and have a dynamically updating routing table based on which they make decisions on routing the data packets. Router divide broadcast domains of hosts connected through it.
+	6.	Gateway		-	A gateway, as the name suggests, is a passage to connect two networks together that may work upon different networking models.
+						They basically works as the messenger agents that take data from one system, interpret it, and transfer it to another system. Gateways are also called protocol converters and can operate at any network layer.
+						Gateways are generally more complex than switch or router.
+
+	7.	Brouter		-	It is also known as bridging router is a device which combines features of both bridge and router.
+						It can work either at data link layer or at network layer. Working as router, it is capable of routing packets across networks and working as bridge, it is capable of filtering local area network traffic.
+
+
+#######################################################################
+
+Network Protocols:
+	Web protocols:
+			TCP/IP :
+			http :
+			DHCP :
+			FTP :
+			SMTP :
+			pop3 & iMAC :
+			SSH :
+			VNC : Virtual Network Computing (Graphical Cotrol)
+		TELNET : Telnet is basically a terminal emulation that enables a user to connect to a remote host or a device using a telnet client. usually Port 23
+		UDP : Stateless connection (which means data might get lost in this protocol)
+
+
+	
+
+		Program--->						 	Whatsapp/xyzWebsite
+													|
+								-----------------------------------------
+								|										|
+		Processes->			Send a message						Record a video
+
+								|										|
+		Threads--->			Set up the page							Open Camera
+
+Programs 		:		are complex applictions which we use on devices.
+Processes		:		Process is one of the features of the program or running instance of the program.
+						There could be many processes running for a program.
+Threads			:		It is like a lighter version of a process.
+						One process can have multiple running threads.
+						Thread will be done only one single job.
+
+Sockets			:		It is interface between two processes. 
+						When we want to send a message from one system to another system, we can make use of sockets.
+						Socket is basically a software stuff and not a hardware part or something like that.
+						e.g. The interface between a processes and internet is a socket.
+
+Ports			:		IP addresses help us get the destination host which we want to communicate.
+						While Ports helps us get the destination application which we want to communicate.
+Ephemeral Ports	:		Now there could be a possibility that there may be many processes of the same application running on the host.
+						e.g. Google Chrome : We could be having multiple tabs open for the same application (browser). Here there are many instances(processes) of the same application.
+						So in order to determine the correct instance (process) of the appliation to send the data, we use ephemeral ports.
+						How it works: 	Basically if we have port 80 for the HTTP requests.
+							What the application will do is it will internally assign a random number port numbers for its processes if there are multiple instances of appliation are running.
+							Once the process is done, the port will be freed.
+							These Ephemeral ports, will exist both on clinet and server machines.
+							But, we need to know the correct port at the server side.
+
+
+#######################################################################
+
+HTTP Protocol	:		It is a client server protocol and it tells us how the client has to request the data to the server and it also tells us how the server will send back the data to the client.
+						When client makes a request to the server, it is called an HTTP request.
+						When the server responds to the clinet, it is called an HTTP response.
+						This is application layer protocols.
+						Every application layer protocol uses a transport layer protocol.
+						HTTP uses TCP (transport layer protocol) inside it. TCP makes sure that all the data is being correctly transmitted and received.
+						HTTP is stateless protocol, meaning server does not store any information about the client by default.
+							e.g. if the client is making the repeated requests to the server, the server won't know that it is the same client which is making many requests.
+						HTTP has many methods : Methods are basically the functionality or the task what need to be done.
+
+HTTP Methods	:		GET		We are requesting data. E.g. give me youtube.com
+						POST	Client wants to give some data to the Server. E.g. registration form submit.
+						PUT		Used to put some data in a particular location.
+						DELETE	Delete some data from the server.
+
+HTTP Status Codes	:	1XX		Informational category
+						2XX		Success Codes
+						3XX		Redirectig Codes
+						4XX		Client error
+						5XX		Server error
+						
+#######################################################################
 
 
 
-
-
-
+#######################################################################
