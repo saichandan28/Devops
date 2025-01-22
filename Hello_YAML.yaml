@@ -1,0 +1,203 @@
+##################################################################
+# This is a comment
+
+# Note: 
+# 1. YAML is case sensitive.
+# 2. Indentation is very important. 
+# 3. Syntax is strict (YAML validator can be used at https://www.yamllint.com/).
+# 4. --- is used as seperator of documents within a single file.
+# 5. So we can say YAML is collection of zero or more number of documents.
+# 6. ... represents the end of document. 
+# 7. YAML is self interpreting the type of the datatype.
+# 8. still we can use !!<type> to specify the type of datatype 
+##################################################################
+
+# Below are the basic key value pair representation
+"apple" : "I am a red fruit"
+1: "This is the first natual number"
+myself : Saichandan Ganagi
+favorite fruit : "Mango"
+job : 'DBA'
+interests: Cloud developer, data analytics, DevOps
+
+
+---
+# Or use different way to represent key value pairs.
+{mango: "yello fruit", age: 35}
+---
+# Below are lists
+- apple
+- mango
+- banana
+- Apple
+---
+# Complex data types (Block style)
+cities:
+  - new delhi
+  - mumbai
+  - bangalore
+---
+# Or the above data can be represented as below (Flow style)
+cities: [new delhi, mumbai, bangalore]
+
+---
+######################### Data types
+
+bio : |
+  Hey my name is Saichandan Ganagi.
+  I am a cloud engineer, data analytics engineer and DevOps engineer
+  Looking to learn AI
+---
+
+# write a single line in multiple lines
+message: >
+this will 
+all be 
+in one single line
+---
+# above is same as 
+message: this will all be in single line
+---
+number: 5342
+marks: 96.96
+booleanValue: No # n, N, false, False, FALSE
+# same for true -> yes, y, Y
+---
+
+##### Specify the data types
+zero: !!int 0
+positiveNum: !!int 45
+negativeNum: !!int -34
+binaryNum: !!int 0b11001
+octalNum: !!int 065342
+hexaDecNum: !!int 0x54
+commaValue: !!int +540,000  #or 540,000 or +540,000
+---
+exponentialNum : 6.034E54
+---
+##### Floating point numbers
+marks: !!float 78.34
+infinite: !!float .inf
+not a num: .nan
+---
+#### Bool
+booleanValue: !!bool No
+---
+#### Null
+surname: !!null Null # or null NULL ~
+~: this is a null
+---
+#### Dates and time
+date: !!date 2025-01-21
+dateTime: !!timestamp 2025-01-21T21:58:34.10-05:00
+indiaTime: 2025-01-21T21:58:34.10 +5:30
+---
+#################################################################
+
+######### Advanced data types in YAML
+
+student: !!seq
+ - marks
+ - name
+ - roll_no
+---
+
+# some of the keys of the seq will be empty
+# sparse seq
+sparse seq:
+ - hey
+ - how
+ -
+ - Null
+ - sup
+---
+
+## Nested sequence
+
+grocery :
+ - 
+  - mango
+  - orange
+  - banana
+ - 
+  - carrot
+  - cucumber
+  - onion
+---
+# key : value pairs are called maps !!map
+
+# nested mapping
+name: Saichandan Ganagi
+role:
+ age: 53
+ job: student
+---
+
+# same as 
+role: {age: 53, job: student}
+---
+
+# pairs: keys may have duplicate values
+# !! pairs
+
+pair example : !!pairs
+ - job: DBA
+ - job: Data Analyst
+---
+# same as
+pair example1: !!pairs [job: DBA, job: Data Analyst]
+# this will be an array of hashtables
+---
+#!!set will allow you to have unique values
+names: !!set
+ ? Saichandan
+ ? Aaradhya
+ ? Color1
+ ? Color2
+ ? Kaad
+---
+# dictionary !!omap 
+people: !!omap
+ - rakamma : 
+    name: Seriously rakamma
+    age: 20
+    height: mast
+ - stree:
+    name: streee
+    age: 20
+    height: mast mast
+ - kaad:
+    name: asdkfj
+    age: 234123
+    height: 123
+---
+
+## Reusing some properties using anchors
+likings: &likes
+  fav fruit: mango
+  dislikes: grapes
+
+person1:
+  name: Saichandan
+  <<: *likes
+
+person2:
+  name: Aaradhya
+  <<: *likes
+  dislikes: berries   ## this will be used the earlier value will get over written
+
+person3:
+  name: Rakamma
+  <<: *likes
+
+---
+
+Best DevOps Tools :
+  - Datree:
+    used : "validates yaml and the schema for Kubernetes"
+  - Monokle:
+    used : "This is by Kubeshop. Used for managing and navigating Kubernetes manifest files or the configurations YAML files"
+  - Lens:
+    used : "Biggest collection of config files which we can use for the Kubernetes deployment and creations etc."
+  
+...
