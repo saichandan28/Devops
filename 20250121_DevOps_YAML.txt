@@ -1,0 +1,71 @@
+############################################################################################
+
+
+YAML is a format of files:
+==========================
+Old Name: Yet another markup language
+
+Now : YAML Ain't Markup Language.
+
+############################################################################################
+
+Introduction:
+=============
+
+It is not a programing language.
+It is basically a data format which is used to exchange data.
+It is similar to XML or JSON data types.
+
+Defination: YAML is a simple human readable language that can be used to represent data.
+It is used to store some information about the configurations.
+
+In YAML, you can store only data, and not commands. 
+
+Data Serialisation:
+    It is storing of data in files.
+    Serialisation is basically the process of converting the data objects (a complex data structures) into a stream of bytes that saves the state of the object in a form that is easily transmitable.
+
+----------                  ----------              ------------                    ----------
+| Object |      ---->       | Stream |      ---->   | Database |        ---->       | Object |
+----------                  ----------              ------------                    ----------
+|-------------------------------------|                                         |------------------|
+        Serialization                                                           Deserialization
+
+
+Object ------> | Serialiser | -----> Stream of bytes -----> Now it can be stored in (YAML, or Database, or Memory)
+
+Object is combination of some code and data.
+
+Data Serialisation language: YAML, JSON, XML
+    It is basically represent Data in the form of code.
+    Further we can use this file/code to get back the object.
+
+YAML is used in 
+    1. Configuration files      ---> Docker / Kubernetes, etc.
+    2. Log files, Caches, etc.
+
+Benefits of YAML:
+    1. Very easy to read.
+    2. Has Strict syntax    - Indentation is important
+    3. Easily convertable to JSON, XML
+    4. Most programming languages use YAML.
+    5. More powerful when representing complex data.
+    6. You can use various tools like Parsers etc. (Parsing means reading the data.)
+
+############################################################################################
+
+Syntax:
+=======
+Please check out : ./Hello.yaml
+
+############################################################################################
+
+Properties/Datatypes:
+=====================
+
+
+############################################################################################
+
+YAML Tool:
+==========
+############################################################################################
