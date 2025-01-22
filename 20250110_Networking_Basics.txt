@@ -1,0 +1,715 @@
+OSI Model has 7 layers:
+    Application: Application layer is implemented in software. Application interact with each others. E.g. Browsers, Skype etc. 
+                Protocols: http, telnet
+    Presentation: Application layer sends message to Presentation layers. 
+                Presentation receives the data from App layer in the form of words, chars, numbers etc,
+                Now Presentation layer translates this data into machine representable binary format i.e. From ASCII to EBCDIC.
+                Data also gets Encoding, encryption(SSL Protocol is used for encryption), Compressed (in order to transfer fast). It provides abstraction.
+                This layer assumes that all the data that it pushes downstream will be taken care by other layers.
+    Session:    Presentation sends data to session layer.
+                Session layer protocol basically helps in setting up the connections and it enables the sending and receiving of data, followed by termination of the connected sessions.
+                Here Authentication(Before it establishes the connection) and Authorisation happens.
+                This layer just establishes the session and rest it assumes that the Downstream layers will take care of the Data transfer.
+                Session layer maintains Session on the traget server.
+    Transport:  Data is transferred from Session layer to Transport Layer.
+                This layer is responsible for the Transfer of the data to the target system.
+                This layer makes use of protocols such as TCP and UDP.
+                Here, Data which is received from the Session Layer gets divided into small units called Segments.
+                Data transfer does not happens at once, it happens in Segments.
+                Each Segment :
+                    i. Contains Source and Destination machine's port numbers.
+                    ii. Contains Sequence number. (which helps in re-arranging the segments in the correct order)
+                    iii. Contains Check Sum. (This helps determine if the received segment is distorted or not)
+                Flow control : Transport layer controls the amount of data that is being transferred.
+                Error control : Checks if all the data is transferred or not. If there are some datapackets.
+                Transport layer adds checksum to every Data segment
+    Network:    This layer basically works for the transmission of the received data segments from one computer to another that is located in a different network.
+                This is where we have the Router.
+                Function of Network layer is :
+                    i. Assigning Logical addresses (IP address in the network layer is known as logical address): NW layer assigns the Sender & Receiver's IP address to each Segment which is known as IP Packet.
+                    ii. Also it performs Routing : Helps in moving the IP packets from Source to Destination. Uses Routing Protocols.
+                    iii. Determines which is the best path to reach the destination machine over the network. (Dijkstra’s algorithm)
+                    iv. Load balancing happens over here. (to minimize the overloading)
+    Data Link:  Data Link layer basically allows you to directly communicate with other hosts.
+                This layer assigns Physical addresses( MAC addresses) of sender and receiver to each Data packet to form a Frame.
+    Physical:   This layer is actual hardware which converts the Data into electric signals and enables the transfer of these signals.
+                The Wifi router will send/receive the signals.
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+
+TCP IP Model:
+    Internet protocol suite.
+    This model has only 5 Layers.
+
+
+    Application:This is the layer where the user interacts with.
+                It has end user applications which directly Display/Get information.
+                e.g. Web Browsers, Whatsapp etc.
+                Application layers have some protocols.
+                Mainly communicates via the Client Server Architecture.
+    Transport:
+    Network:
+    Data Link:
+    Physical:
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Client Server architecture
+1. Client Send a request.
+2. Server sends a response back to the client.
+3. Server is a system that hosts some information (e.g. Web application, web pages)
+4. Basically any application which works on Client server architecture model has two main components
+    a. Client Part of App.
+    b. Server Part of App.
+5. These two (Client App & Server App) are basically some set of Process and other components, which communicate with each other.
+6. So when we want to host a server, we need the below
+    a. A reliable IP address which can be reached by the clients.
+    b. High availability at the servers.
+    c. Load balancing.
+7. Datacentres are used to host these Application servers and databases.
+8. Ping command : Measures the round trip time for messages sent from the originating host to the destination computer and that are echoed back.
+9. Generally we cannot reduce the ping time. Since these signals are travelling at very fast speed via the Under Sea Optical fibre cables.
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Peer to Peer architecture (P2P)
+1. In this architecture, various applications or processes etc. which are running on different devices they get connected with each other.
+2. There is no one Large Application server or DB anything like that.
+    e.g.    A LAN network of computers in a College lab.
+            Bit Torrent.
+3. Advantages in this architecture 
+    a. Easy to scale.
+    b. Its Decentralised.
+4. Every single device or node on this network can be acting as Server and also as a client.
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Networking Components:
+    1. Repeater -   A repeater operates at the physical layer. Its job is to regenerate the signal over the same network before the signal becomes too weak or corrupted so as to extend the length to which the signal can be transmitted over the same network.
+                    * Repeaters do not amplify the signal.
+                    * When signal becomes week, they copy the signal and regenerat it at the original strength.
+                    * Its a 2 port device.
+    2. Hub      -   A hub is basically a multiport repeater. A hub connects multiple wires coming from different branches.
+                    e.g. The connector in Star topology which connects different stations.
+                    * Hubs cannot filter data, so data packets are sent to all connected devices.
+                    * Collision Domain of all hosts connected through Hub remains one.
+                    * Hub do not have an intelligence to find the best path for data packets which leads to inefficiencies and wastage.
+            Types of Hub:
+                    i.  Active Hub :    These are the hubs which have their own power supply.
+                                    They can clean, boost and relay the signals along the network.
+                                    It serves both as a repeater as well as wiring center.
+                                    They are used to extend maximum distance between nodes.
+                    ii. Passive Hub :   These are hubs which collect wiring from nodes and power supply from active hub.
+                                    These hubs relay signals onto the network without cleaning and boosting them.
+                                    They cannot be used to extend distance between nodes.
+    3.  Bridge  -   A bridge operates at data link layer.
+                    * Bridge is a repeater, with add on functionality of filtering content by reading the MAC addressed of source and destination.
+                    * This is also used for interconnecting two LANs working on the same protocol.
+                    * It has a single input and single output port, thus making it a two port device.
+            Types of Bridges:
+                    i. Transparent Bridges :
+                            These are the bridges in which the stations are completely unaware of the bridge's existence.
+                            i.e. Whether or not a bridge is added or deleted from the network, reconfiguration of the stations is unnecessary.
+                            These bridges makes use of two processes : bridge forwarding and bridge learning.
+                    ii. Source Routing Bridges:
+                            In these bridges, routing operation is performed by source station and the frame specifies which route to follow.
+                            The hot can discover frame by sending a special frame called discovery frame, which spreads through the entire network using all possible paths to destination.
+    4.  Switch  -   A switch is a multi port bridge with a buffer 
+                    It has design that can boost its efficiency(large number of ports imply less traffic) and performance.
+                    * Switch is data link layer device.
+                    * Switch can perform error checking before forwarding data, that makes it very efficient.
+                    * It does not forward packets that have errors and forwards good packets selectively to correct port only.
+                    * Switch divides collision domain of hosts, but broadcast domain remains same.
+
+    5.  Routers -   A router is a device like a switch that routes data packets based on their IP addresses.
+                    * Router is mainly a Network layer device.
+                    * Router normally connects LANs and WANs together 
+                    * Router has a dynamically updating routing table based on which they make decisions on routing the data packets.
+                    * Router divide broadcast domains of hosts connected through it.
+
+    6.  Gateway -   A gateway, is a passage to connect two networks together that may work upon different networking models.
+                    * They basically works as the messenger agents that take data from one system, interpret it, and transfer it to another system.
+                    * Gateways are also called protocol converters and can operate at any network layer.
+                    * Gateways are generally more complex than switch or router.
+
+    7.  Brouter -   It is also known as bridging router is a device which combines features of both bridge and router.
+                    * It can work either at data link layer or at network layer.
+                    * Working as router, it is capable of routing packets across networks 
+                    * And working as bridge, it is capable of filtering local area network traffic.
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+
+Protocols:      Every Device, at all the Layers (App, NW, Data Link etc) will have some protocols (set of rules).
+                e.g.
+                Application layer Protocols :   http, smtp, ftp
+        Web Protocols   :   
+            TCP/IP :
+                * http - communicating with servers.
+                * DHCP - Allocating IP to a device in a network.
+                * ftp - Transfer files
+                * smtp - Sending mails
+                * pop3 & IMAC - Receive mails
+                * SSH   - Login to some host
+                * VNC   - Virtual Network Controlling (Graphical control)
+            Telnet  :
+                Terminal emulation : This enables a user to connect to a remote host using the telnet client.
+                Default port : 23
+                Here the data transfer happens without any encoding or encryption.
+
+            UDP     :
+                * This is a connection less session (Stateless connection)
+                * It doesnot maintain the state.
+                * Data may get lost in this protocol during the lifetime of the connection.
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Application Layer.
+
+Application terminologies:
+    1. Program :   Program is nothing but the group of processes which make up your application.
+                    e.g. WhatsApp is a program which does multiple tasks.
+                    *** One program can have multiple running instance at once. 
+                    e.g. Browser with multiple tabs or windows.
+    2. Process :    Processes are like an individual features of the program.
+                    e.g. Send message, Record video etc.
+    3. Thread   :   This we can say is a lighter version of process which perform a single task.
+                    A single process can span multiple threads.
+                    e.g. Setup the chat layout or page, Read old conversation messages, etc.
+
+    4. IP Addresses : This is the address of a device in a network.
+                    The IP address help us determine the device which we need to communicate with.
+    5. Sockets  :   This is a software which acts as an Interface between processes.
+                    e.g. Interface between an Application process and the internet.
+                    They are used when we need to send messages between one system to another system.
+                    This is not like a Client - Server architecture.
+                    This is not a hardware, its a software which acts as an interface.
+    
+    6.  ports   :   Ports help us determine which particular application within a device we need to communicate with.
+            
+        Ephemeral Ports :   When there are multiple running instances of a single application. 
+                                E.g. multiple tabs of Browser.
+                            So lets consider Browser is working on http protocol which makes use of port 80
+                            Now the application will internally assign its instance a random (allowed) port called Ephemeral port.
+                            Once the process is done, this ephemeral port gets free.
+                            These Ephemeral ports can exist at the client side as well as Server side.
+                            But for sure we will need to know the Server side Ephemeral ports very well.
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+*** Stateless Protocol  :   Server will not store any information about the client by default.
+                            So if the client is making frequent requests, server will not treat it as a single client.
+    Stateful Protocol   :   Server will store some infomation about the client by default.
+                            Here server will get to know which client is making what requests.
+
+
+*** Every Application Layer protocol will require some transport layer protocol.
+    Following are the transport layer protocols:
+        i. TCP      :   Transmission Control Protocol
+                        This is a connection oriented protocol. : A prior connection has to be made with the server in order to transfer the data.
+                        TCP makes sure that very single data is received at the destination.
+
+        ii. UDP     :   User Datagram Protocol  (used in video conferencing)
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+http protocol
+=============
+        This is an Application layer protocol.
+        This is a Client-Server protocol and it tells us:
+            a.  How a client can request information from the server.
+            b.  How a server will respond with the data to the client.
+        
+        http request:   When client makes a request to the server.
+        http response:  When server responds to the client.
+        
+        Clients and servers use multiple methods to communicate with server: There are multiple methods in this: get request, push request, post request.
+        It uses TCP : http uses TCP as the transport layer protocol inside it.
+        Its a Stateless protocol : http does not store the state.
+
+        Following are HTTP Methods:   (Method is a set of rules which tells what to do.)
+            a. GET      Basically requests some data from server.
+            b. POST     Posts some (web form) data on the server.
+            c. PUT      Puts data at a specific location in server.
+            d. DELETE   Delets data.
+
+        HTTP status codes:
+            200         Request is successful
+            400         Bad request
+            404         Request not found
+            500         Internal server error.
+
+        HTTP status codes Classification:
+            1XX         Informational category
+            2XX         Success codes
+            3XX         Redirecting codes
+            4XX         Client errors
+            5XX         Server errors
+
+        Cookies :       Since HTTP is stateless, it uses Cookies to store the state of any session.
+                    Its a Unique string which is stored in the clients' browser.
+                    Cookie is created when the very first time you visit an application in the website.
+                    And post that all the requests which you make, in all the requests' header, the cookie will be sent.
+                    The server will read the cookie and get the information about the client and then fetch the relevant user/client data into the website.
+                    Cookie will be present in HTTP request(stored in browser), HTTP Response(sent by server) and the server will also have some cookie data ( user, cookie_value).
+                    Cookies have an expiration date.
+                    * Third party cookies   :   They are the cookies for the URLs for which you have not visited.
+                    * Check how to block third party cookies.
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+
+How email works:    SMTP protocol
+================
+            SMTP (Simple mail transfer protocol) is Application layer protocol for sending email.
+            POP3 (Post Office protocol) is the application layer protocol for receiving email.
+            IMAP (Internet message access protocol) is the application layer protocol for receiving email.
+            TCP is the tranport layer protocol used.
+
+            Lets take example:
+            User A(usera@yahoo.com) sends mail to User B(userb@gmail.com).
+            Now google and yahoo etc will have its own SMTP servers.
+            Step 1. Sender will send mail to his SMTP server. The email will live on the Sender's SMTP server for a while.
+            Step 2. Now the mail will make connection with the receiver's SMTP server. Once connection is established, the mail will get transferred to the Receiver's SMTP server.
+            Step 3. Whenever the receiver logs into his mail client application, it will get(download) the mails from its own SMTP server.
+            ** Note if both the Users are using the same mail servers, then the step 2 will be skipped.
+            There will be error handling and many other functions.
+                e.g. If Receiver's SMTP is not available, then Sender's SMTP server will keep on trying to send the mail after a set interval.
+            command to find server address
+            $   nslookup -type=mx gmail.com
+
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+DNS
+===
+        Domain Name System.
+
+            Domain names are mapped to IP addresses.
+            All these mappings are stored in a database of DNS server, we use DNS service to fetch the IP address of a given domain name.
+            DNS is application layer protocol.
+
+            Classes of Domain name.
+
+            mail.google.com
+            mail:   Sub Domain
+            google: Second-level Domain.
+            com:    Top level Domain.
+
+            Root DNS Servers:
+                These are the first point of contact.
+                They store the data of URLs as much as possible.
+
+            Top Level Domain (TLD) Servers:
+                They store the top level domain.
+                    e.g. .io, .org, .com, .in   etc
+                check out : root-servers.org
+                ICANN registers the DNS data
+
+        Flow:
+            When we enter 'www.google.com' in the browser, browser invokes the http protocol with this URL.
+            Step 1. First the search for this URL happens at the Local machine's(own machine) cache.
+            *** So whenever you visit a new website, the URL and the addresses get stored in your local machine's cache. This helps reduce the DNS queries again and again.
+            Step 2. If the IP address is not found in the local cache, then it looks up in the local DNS server.
+            *** Local DNS server is the first point of contact (e.g. Your Internet Service Provider, they have data of almost all the websites and they will be able to track your actions with the DNS queries)
+            Step 3. If the address is not found at Local DNS, the query lookup goes to the Root DNS server.
+            Step 4. If the address is found at root, well and good.
+            Step 5. Else if Root DNS doesnot have the data, depending on the Top Level Domain, the request lookup goes to the appropriate TLD DNS server.
+            Step 6. In TLD it will get the IP details and the connections happen to the destination host.
+
+        HTTP protocol takes the URL and makes query of IP as above to the DNS service.
+        command to get DNS details : $ dig google.com
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Transport Layer
+===============
+    Some Brief about the Transport layer:
+
+        You Send message to Friend
+
+        You -----------------> Friend
+                message
+        
+        Application Layer:  Here the application level interations are taken care by the application layer (basically applications).
+        Transport Layer:    Performs
+                            i. Transports the application data to network layer.
+                            ii. Transports the data received at network layer(pertaining to the current device) to the application layer.
+        Network Layer:      Performs
+                            * The transfer of data from one network layer of device to other.
+                            * Network Layer has the role to transfer the data between the devices.
+    Transport Layer:
+        Transport layer has a role to pick the data from Network layer and send it to the correct application which is running on the device.
+        This provides us the abstraction.
+        Transport layer resides on your device and all other machines.
+        There are mainly two protocols
+            a. TCP
+            b. UDP
+        Transport layer has Multiplexer and De-Multiplexer.
+            Multiplexing    :   Multiplexing allows us to send multiple forms of data (messages, file, Video, video calling etc.) to multiple destinations just via one medium.
+            This happens at the source Device.
+            De-Multiplexing :   De-Multiplexing just the opposite of above, it helps get the original files from the same medium.
+            This happens at the Destination device.
+        Both Multiplexer and De-Multiplexer will have Sockets.
+        Flow of data:
+            Data transfer happens via packets.
+            We will idnetify the destination machine using the IP address.
+            We will identify the right application using the port number.
+            **** Sockets (at Multiplexer and De-MX)  : Sockets are some sort of a connection between two applications : It is like a gateway between an application and the network. There will be other application connected at the other end of the network.
+                    So if suppose a message application in your device want to transfer a text message to your friend's application, it will Send the data to the socket.
+                    These Sockets will have port numbers.
+            Basically Transport layer will attach these socket port numbers to the data packets.
+                    Buy attaching the socket port numbers, we will know from where the data is coming from and to which application it need to be sent.
+        Transport layer will attach the socket port numbers.
+        Transport layer also takes care of congestion control.
+        Congestion control algorithms built in TCP.
+        Handle Data curroption using Checksums.
+            Checksum: It is a string which is generated at the source by taking the patcket's data as the input.
+            Checksum will be attached along with the data.
+            So once the data is received at destination, the data is matched against its checksum to validate data corruption.
+        Handles Data Loss using Timers.
+            Timers:
+                        You                                                Friend
+                    
+            case 1. Start timer             Send data packet->             Gets the data packet
+                    Received Ack         <-Send acknowledgement           
+                    Timer Ends gracefully
+
+            Case 2. Start timer             Send data packet->             Did not receive
+                    Waiting for Ack
+                    Timer Expires
+                    Retries Sending packet.
+
+            Case 3. Start timer             Not able to send packet
+                    Waiting for Ack
+                    Timer Expires
+                    Retries Sending packet.
+            
+            Case 5. Start timer             Send data packet ->             Gets the data packet
+                    Waiting for Ack         <-Not able to send Ack
+                    Timer Expires
+                    Retries Sending packet.
+            This way we will know if the packet gets lost.
+        Transport Layer has Sequence Numbers: Every packet will have a unique Sequence #.
+            In the above Data loss senarios of case 5,
+            The Source will send the data packet again which is already received by the destination device.
+            Now there will be duplicate data packets, such cases will be resolved using the Sequence Numbers.
+               
+    
+    Data corruption
+        The data may get corrupted during the transfer from one NW layer to another NW layer(other device).
+        If there is some data loss  
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+UDP Protocol:   User Datagram Protocol.
+=============
+        Its transport layer protocol.
+        It transports data from App to NW layer and the other way around.
+        In UDP :
+            data may or may not be delivered.
+            Data may Change on the way.
+            Data may not be in order.
+        UDP is a connection less protocol.
+            There is no prior connection established between the devices, the Data transfer gets started.
+        UDP uses Checksums, so you will know if the data has been corrupted or not.
+            But UDP does not take any actions for this data corruption.
+        
+
+        UDP packet 
+            Contains:
+                i. Header (Total size of Header 8 Bytes): Header Contains
+                    a.  Source Port # (2 Bytes)
+                    b.  Destination Port # (2 Bytes)
+                    c.  Length of Datagram (2 Bytes)
+                    d.  Checksum (2 Bytes)
+                ii. Data : Data is actual Data.
+            Total size of UDP Packet is 2**16 Bytes (64 KB).
+        UDP is very fast, since there is no data validation etc.
+        Use cases of UDP:
+            a. Video Conferencing apps
+            b. DNS service
+            c. Gaming apps
+        Commands to check the packets
+            $ sudo tcpdump -c 5
+
+        
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+TCP Protocol:   Transmission Control Protocol.
+=============
+        TCP protocol is used in HTTP, POP3, IMAP, SMTP.
+        Basically it allows us to transport data from App layer to NW layer and visa versa.
+        Transport layer protocol.
+        Application layer sends lots of raw data and TCP segments this data.
+        *Segmenting -> Divide in chunks, add headers, Checksums etc.
+        It may also collect the data from network layer -> Transport layer sends data to network layer, then the network layer may divide the data into more smaller chunks and send it across.
+            At the receiver end, this smaller chunks of network layer will be collected and put into one to form the original Transport layer segment.
+        It provides Congenstion control.
+        Takes care of 
+            i. When data does not arrive.
+            ii. Maintains the order of data. (using sequence number)
+        Features of TCP:
+            i Connection oriented -> First a connection has to be established and then you can send data.
+            ii. Error control.
+            iii. Congestion control.
+            iv. Full Duplex -> 
+                    Suppose there are 2 devices A and B which are communicating.
+                    Full Duplex means, Data transfer can be happening from A to B & B to A at the same time.
+            v. Note : Using TCP there can be only two end points communicating with each other.
+                    We cannot send data from one Device to multiple devices.
+                    i.e. Between 2 Devices there is one TCP connection. You will need another TCP connection to communicate to another device.
+        
+    ** Refer docs to know how the TCP actually works, how connections get established, etc.
+
+    Three way Handshake
+
+    Clinet                                  Server
+            --------SYN Flag--------------->
+                    (Seq no: XX)
+
+            <-------SYN+ ACK Flag---------->
+                    Seq no: (maths on XX) => no.
+            
+            --------ACK Flag -------------->
+                    Seq no:
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Network layer:
+==============
+
+    Transport Layer data we have in -> Segments
+    Network layer data we have in   -> packets
+    Data link layer data we have in -> Frames
+
+    In network layer we work with routers.
+    This is the part where your data travels from one place to another.(Could be across the world)
+    Multiple routers are connected to each other forming a network.
+    
+    Routers:
+        Every single router has its own network address.
+        Every device has its own IP address and MAC address.
+        Network Address: Allows us to send the data packets through the routers.
+        Once some data packet is received in a router, it reads the packet's destination address and reaches to its Routing table (Forwarding table) to find the next best path to reach the destination address.
+            Then the router will ship the received packet to it's next hop after checking the forwarding table.
+            This is called hop-by-hop forwarding, until it reaches the correct destination router.
+        If the received data packet's destination address matches its own network address, then it will transfer the data packet to the transport layer for the data processing.
+        Routing table exists in Routers.
+        The hops or the forwarding table lookup hops happen at the Internet service provider's Router end and not at the individual home Router's end.
+            And hence every routing table will not have details for every individual's router.
+            The routing table will have Block of IP addresses as the path.
+            These block(s) will be assigned to your Internet service provider's Router.
+            Basically Block is the subnet part of the IP address. The Subnet is used to determine the destination routers Network address.
+        Whenever a host is sending some data packet, it should know the Subnet masking of the destination.
+        
+    Routing table:
+        This is a data structure.
+        It basically consists of multiple paths and forwarding table.
+        Forwarding table basically consists of only one path which could be the next hop.
+    
+    Network Packet:
+        Containts:
+            a. Source network IP and other details
+            b. Destination IP and other details
+            c. The actual data.
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Control plane:
+==============
+    In network layer there is something known as Control plan.
+    Control plan is used to build the routing tables. It manages the router's routing tables, when there is a new router in the network or there is a router which gets deleted etc.
+
+    Every router will have links (connectivity) with some other routers.
+    
+    The relation between routers could be visualised like a Graph Data structure.
+        Every routers is like a node in a Graph.
+        Every link between routers is like an edge in a Graph.
+
+Routing:
+========
+    There are two types of routings that we use to create the routing table.
+        1. Static routing :
+                Manually adding the addresses.
+                Its very tedious to add each path manually.
+                e.g. if you want to reach some place X, you take this this this path like that we need to add manually.
+        2. Dynamic routing :
+                Here we do not need to add any paths manually, it creates on its own.
+                Also it evolves automatically whenever there is a change in the network.
+                Path finding Algorithms like Dijkstra’s, Belvin ford are used in here.
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Internet protocol (IP):
+=======================
+    Its the network layer protocol.
+
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+    IP Address:
+        It uniquely defines a device, client, server or a node.
+
+        IPv4 (IP version 4) -> 192.168.2.30/24
+            It is a 32 bit/4 numbered address.
+            We can identify 2**32 unique devices.
+            Highest IP : 255.255.255.255 (255 is the highest number which we can use since each number need to be represented within 8 bits)
+
+
+        IPv6 (IP version 6) -> 
+            It is a 128 bit address.
+            Cons: Not backward compatible.
+                    IPv4 cannot be connecting with IPv6.
+            Consists of 8 Hexa decimal (16 bit) numbers.
+            e.g.:   a:a:a:a:a:a:a:a
+
+
+        Generally and IP address consists of:
+            1. Network address: 192.168.2
+            2. Subnet mask:  24 bits (or 255.255.255.0)    (Subnet mask will help mask the network address part within the given IP address)
+            3. Devicew address: XX.XX.XX.30 : 30 is the device IP address within the bigger network address (Point 1).
+
+        Generally 24 is the default Subnet.
+            There are also variable length Subnets. 
+            192.0.1.8/30 : Here 30 is the subnet.
+
+        Internet society has created classes for the IPs.
+            1. Class A  ->      0.0.0.0             to              127.255.255.255
+            2. Class B  ->      128.0.0.0           to              191.255.255.255
+            3. Class C  ->      192.0.0.0           to              223.255.255.255
+            4. Class D  ->      224.0.0.0           to              239.255.255.255
+            5. Class E  ->      240.0.0.0           to              255.255.255.255
+
+        Reserved IP address: There are many reserved addresses, which we cannot use for any other purpose.
+            127.0.0.0/8         -> Local host or loop back addresses.
+                                    These are used to connect to process in same machine.
+
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Network Data packets:        
+    Header is of 20 bytes.
+    Contains:
+        1. IP version
+        2. Total length of the packet.
+        3. Identification numbers,
+        4. Flags
+        5. Protocols 
+        6. Check sum
+        7. Addressed, 
+        8. TTL etc etc.
+    
+    TTL : Time to live.
+        Basically packets are hoping all the time to before they reach the destination.
+        Some time it may happen that they end up in a loop path and may not reach the destination.
+        So after the TTL time the packet will get dropped.
+        Basically it is the number of hops which it can make before it gets dropped.
+
+    Every hop will reduce the TTL value of the packet.
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Middleboxes:
+
+    1. Firewall 
+        Global Internet Firewall
+        Your trusted network Firewall
+        The firewalls reside in Network layer as well as Transport layers.
+
+        Firewall provides filters, so all the IP packets that are coming to my network could be filtered based on
+            a. Address
+            b. Port numbers
+            c. Flags
+            d. Protocols 
+            e. etc etc 
+        Types of Firewalls:
+            a. Stateless Firewall: Will not maintains the state.
+
+            b. Stateful Firewall: Will reach and store the IP packets details in its cache memory.
+                                    So that for the upcoming similar packets the action will be easier.
+
+    2. NAT (Network Address Translator)
+            NAT is a method of mapping an IP address space into another by modifying network address information in the IP header of packets while they are in transit across a traffic routing device.
+            So when a packet is received from Source Device (that has Source devices' ip)
+                NAT will modify its header to the Publi IP of the ISP (as source) and that will be routed to the destination Network IPS.
+                Check how NAT actually works.
+
+
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+Data Link Layer:
+    The data packets that we receive from the Network layer, the data link layer is responsible to send these packets over a physical layer.
+    Data link layer converts data packets into Frames.
+    It helps in error detection.
+    It will help transport the data between the connected devices.
+        e.g. You have your Router.
+        The ISP would have assigned a particular IP to your Router. Along with a subnet.
+        There are many Devices attached to this router. All these new devices will be allocated an IP address within the allocated subnet on the router.
+        Again DHCP is used to allocate the IP address to the device.
+    
+    Many devices connected in a LAN.
+        Even though there is IP address assigned to a device and various other identification methods.
+        But at the Data link layer, they communicate with each other using the Data Link Layer address.
+    
+    Data Link Layer address (DLLA) is the MAC address of the routing device (ethernet adaptor, router, WiFi Adaptor, Bluetooth Adaptor etc.)
+
+    Frame: Contains:
+        1. Data Link Layer address of the sender.
+        2. IP address of the Destination.
+        
+    ARP cache: (Address resolution protocol)
+    If we have 4 devices in a LAN,
+        device 1 wants to send something to device 4, then it will check for the Data Link Layer address of Device 4 in its cache.
+        If it does not have the DLL Address in its cache, then its going to ask in its network to all the connected devices.
+        All the devices connected in this network will receive the message from device 1 (Frame basically) asking to get the Data Link Layer address of the destination IP address.
+    
+    Once it gets the DLLA, 
+        Where there is an ARP reques and the data comes back to your router, the router will attach the correct Private IP address and the MAC address to the data packets.
+        MAC (Media access control) address: 12 digit Alpha Numeric string.
+        MAC address is a unique identity for a particula network interface.
+        MAC is used by all the IEEE network technologies like ethernet, Wifi, Bluetooth etc.
+    
+    We can block some of the devices by their MAC addresses
+
+    Then the data transfer happens via the Physical link layer.
+        
+
+##################################################################################################################################################################
+##################################################################################################################################################################
+
+
+DHCP : Dynamic Host Configuration Protocol.
+    Whenever a new device is added to your router, that new device will connect to the DHCP server.
+        And it will request the DHCP server to allocate some IP addresses to it. 
+    DHCP server will have some pool of IP addresses, it will assign one IP to your new device.
+
