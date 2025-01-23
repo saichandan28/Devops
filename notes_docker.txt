@@ -1,0 +1,177 @@
+#######################     Docker     #######################
+Docker helps run applications in isolated environment.
+    Our application runs in a container, this container itself is an isolated environment.
+    Container will not know what is happening outside it, even in the operating system.
+    That way it provides the security.
+    We can run multiple such containers in a server.
+
+    Docker is a company and they have docker as a tool(product).
+
+    Docker Architecture:
+        Runtime:
+            Runtime basically allows us to start and stop the containers.
+            There are two types of runtime.
+                a. RunC : (low level runtime) works with OS and starts and stops Containers.
+                b. ContainerD : (high level runtime) CNCF project; this manages RunC and it also helps in managing containers.
+                                It helps containers with how to interact to the network i.e. how to get the data from the network, internet etc.
+                                Pulling of images, etc.
+        
+        Docker Engine:
+            Docker engine is something which we use to interact with Docker.
+            Flow:
+                1. We give some command using Docker CLI
+                2. Command will be read by Rest API of the docker
+                3. Rest API Sends the command to Docker Daemon (which is running on the server)
+                    e.g. Docker run ubuntu  ----> API reads and send ----> Docker Daemon. ----> Starts container having ubuntu.
+            It uses Client Server Architecture.
+                CLI (clinet) and Daemon (server)
+        
+        Orchestration:
+            Orchestration is nothing but managing the containers:
+            Managing includes: 
+                *   Scaling up or down the number of containers.
+                *   Changing the version of code running inside the containers.
+                *   etc
+            Docker Swarm is one of the tool used for Orchestration.
+            Kubernetes is also used for Orchestration, But it has lot more features.
+
+    Docker Images & Docker Files
+        We can create docker images using the docker files.
+        We can run the instance of an appliaction using the docker image.
+
+        Docker File     ----->      Docker Images   ----->      Container
+
+        So when you want your application to get containerised,
+            You will need to write a docker file for that, that will get converted to an image.
+            This image you can share with others to run your Application.
+
+
+                        Docker Client
+                            |
+                        Docker Daemon
+                            |
+                        ContainerD
+                            |
+          |-----------------|--------------------|  
+        Shim                Shim                Shim
+          |                 |                    |
+        RunC                RunC                RunC
+          |                 |                    |
+        Container           Container           Container
+
+
+##################################################################################################################    
+##################################################################################################################
+
+DevOps is set of practices towards Development and Operations.
+
+    Plan
+    Code        :           Git, Jira, Confluence
+    Build       :           sbt, maven
+    Test        :           Selenium, Junit
+    Release     :           Jenkins, Codeship
+    Deploy      :           DC/OS, Docker, AWS
+    Operate     :           CHEF, ANSIBLE, Kubernetes
+    Monitor     :           Nagios, splunk, promethus, Graphana
+
+
+
+    Docker Dev : 
+        Code your applications
+        Create Docker files of the appliaction
+        Create images of the application
+        Create containers from images.
+    Docker Ops :
+        Download images
+        Running images
+        Operating on the containers
+        Monitoring
+
+##################################################################################################################    
+##################################################################################################################
+
+How Docker works:
+=================
+
+    Docker CLI> docker run hello-world
+        run             --->    Run an image to create a container.
+        hello-world     --->    Image name.
+
+        1. Docker checks for the image named 'hello-world' in the local machine.
+        2. If the image is found, it is ready for creation of container.
+        3. If the image is not found, the docker lookup for the image in the docker registery(online docker hub) and downloads it.
+        4. Starts the container using the image.
+    
+    Docker CLI> docker images               --->    Lists all the images available on local machine
+    ## https://hub.docker.com/      ---> this is site for all the docker images. People share many images here.
+    Docker CLI> docker pull mysql           --->    Downloads the mysql image to your local machine.
+    Docker CLI> docker pull oracle:12.2     --->    Downloads the oracle image of version 12.2
+    Docker CLI> docker run -it ubuntu       --->    Starts container with interactive mode. It will not terminate the container and takes your control inside the container.
+    Docker CLI> docker ps                   --->    Lists the running instances of all docker containers.
+    Docker CLI> docker run ubuntu echo hello        --->    Container starts and executes echo command and then the container is stopped.
+    Docker CLI> docker run -d alpine ping www.google.com        ---> Container starts and executes the ping command. It will will keep running in detach mode(will not get terminated).
+
+    ## Suppose a container is running and you want to attach a new interactive shell to it
+    Docker CLI> docker ps       # get the id of the container that you want to create the cli for
+    Docker CLI> docker container exec it <id> bash      ---> this will take control to already running container (id <id>).
+
+    Docker CLI> docker inspect <id>         --->    Gives all the info about the container
+    Docker CLI> docker logs <id>            --->    All the activity will be logged here.
+    Docker CLI> docker logs --since 5s <id> --->    Logs from last 5 seconds will be shared.
+    Docker CLI> docker stop <id>            --->    Stops the running container of id <id>
+    
+    ## Suppose you want to remove a container permanently then
+    Docker CLI> docker ps -a                --->    Lists all the running and stopped containers in the machine.
+    Docker CLI> docker rm <id>              --->    Drops the container of id <id>
+    Docker CLI> docker container prune -f   --->    Drops all the containers that are stopped.
+
+    Docker CLI> docker rmi <image_id>           --->    Removes the image
+    Docker CLI> docker images -q            --->    Lists only the IDs of all the local docker images
+
+    Docker CLI> docker rmi $(docker images -q)  --->    This will remove all the docker images present in local machine.
+
+
+    Docker images(containers) will have
+        Docker Images are built in Layers. 
+        a.  Application files: Which help spin up the application
+        b.  Dependencies:   All the dependent libraries, files, rpms/dlls etc.
+        c.  Operating system files: which helps run the OS related stuff pertaining to the actual application.
+        
+    
+    Docker CLI> docker run -d -p 8080:80 nginx
+        This is port forwarding: nginx runs by default on port 80, we made forwarding port from local port 8080 to docker port 80
+            So all the actions happening on port 8080 of local machine will be forwarded to the port 80 of nginx docker container.
+            Go to browser enter : http://localhost:8080     ---> this will take you to nginx landing page.
+    
+    Big topics, learn and read about:
+        Docker compose
+        Docker volume
+        Docker networking
+        Docker file best practices
+    
+    Creating Docker Image:
+    ## Suppose you started a docker container and did some changes and you want to create a new image of that container:
+        Docker CLI> docker ps -a        # get the container id
+        Docker CLI> docker commit -m "<some message>" <id> <image_name>[:<version>]
+        e.g. 
+        Docker CLI> docker commit -m "added application configs" <id> Sai_ngnix:1.01
+
+    Docker Layers:
+        Docker Images are built in Layers. Each layer is an immutable file, but is a collection of files and directories.
+        The last layer can be used to write out data to.
+        Layers receive an ID, calculated via a SHA 256 has of the layer contents.
+        Thus, if the layer contents change- it changes the Layer's hash value.
+        Notice the IMAGE-ID, it is the first 12 character of the hash value of the entire image.
+
+    How to create Docker Files, How to create our own Docker Images
+
+        vi DockerFile
+        FROM ubuntu
+        MAINTAINER Saichandan Ganagi <saichandan@gmail.com>
+        RUN apt-get update
+        CMD ["echo", "Hello World"]
+
+        Docker CLI> docker build -t myImage .
+        Docker CLI> docker images
+        Docker CLI> docker run myImage
+
