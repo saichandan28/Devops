@@ -145,3 +145,5 @@ git commit -m "merged multi commits into one"
 git log				: it shows commits from 1 to 4a now.
 
 #################################################
+
+git branch -d <branch_name>		:	To delete a branch locally, use the command 
