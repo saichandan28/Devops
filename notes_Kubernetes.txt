@@ -1,0 +1,204 @@
+############ Introduction to Kubernetes ############
+
+Docker helped in containerised form of virtual machines.
+
+Kubernetes has many usages one of them is orchestration.
+
+History of Servers:
+    1. Configuration management tools on Bare Metal:
+        Maintain all the changes in your infrastructure with help of software.
+        e.g. Ansible will provides a state like this much RAM and this much CPU needs to be allocated
+        Mutable: We could do the configuration changes on the run.
+        Less secured: All the apps were running on one same machine.
+        One application need one version of RPM/Dependencies but for others we need different.
+    2. Virtual machine:
+        Immutable:The configuration of virtual machine cannot be changed while it is running.
+        More secured compared to bare metal: since only few applications will be running in a VM and it will not know other VM details.
+        Dependencies need to be installed.
+    3. Containers:
+        Removes the dependencies related issue, by bundling all the needed software and makes sure code is running on all the environment.
+        Easily Scalable
+
+One app running on one VM.
+This is not cool for scaling, hence Docker.
+If more load is coming, we can spin up more containers.
+If code change is to be done, Rolling updates can be done.
+Deploy code.
+
+AWS started cloud.
+Google had been using containers inside their org privately.
+
+Google created Kubernetes.
+    Google then made K8s an opensource and Then donated K8s to CNCF in 2014.
+    CNCF is an Opersource project.
+    It is 2nd largest project after Linux.
+
+Civo is a cloud provider.
+    Its very fast and very affordable.
+
+
+############################################################################################################################################
+
+Microservices:
+
+############################################################################################################################################
+
+
+Orchestrators:
+==============
+    Basically helps in deploying and managing applications dynamically.
+    Dynamically: More load incoming, it automatically Scales up and vice versa.
+    Helps in :
+        Dynamic management of application
+        Deploy code
+        Zero downtime updates
+        Scale
+        Heal containers
+    These are also features of Cloud native applications.
+    
+Cloud native applications: Applications which provide demands
+    Deploy
+    Zero downtime updates
+    Scale
+    Self Heal   : if some apps go down, Kubernetes will restart it.
+    Scheduling  : 
+    etc, etc
+    Running on top of Kubernetes
+
+So all the above are features of Container orchestration.
+    Kubernetes provides much more features than just an orchestrator
+    You can run it on your own cloud, machine
+    You can migrate to one machine to other or one provider to other.
+    You can make use of volumes/external storages etc
+    You can Replicate   :   Duplicate an application into new setup. 
+    It provides Loadbalancing   
+    Provides logs and service discovery
+    Store the secret information (like passwords and keys) using Secrets.
+
+
+Mostly we define the What part of our application including the configurationa and infrastructure, 
+    Kubernetes takes this input via the Kubernetes API and runs our applications. We are not concerned about how here.
+    e.g. This is my code, run it in 4 application servers having 2gb RAM etc etc.
+    Now its up to Kubernetes to make sure this application is running as per the above requirements.
+
+
+
+############################################################################################################################################
+
+Kubernetes Architecture:
+========================
+
+Kubernetes has multiple components, let's see how it works.
+
+    Kubernetes cluster:     Means collection of bunch of nodes and a control plane.
+                        A node (Also known as worker nodes) can be treated as a VM, here the actual app is running.
+                        Control Plane (Previously known as Master node): manages/controls the worker nodes.
+
+                        Control plane: It is a collection of various components which help us in managing to overall health of the cluster.
+                            Add, delete, scale, expose Pods can be done.
+
+    Kube CTL         :      It is the Kubernetes command line tool.
+                        KubeCTL will communicate with the control plane.
+                        e.g. Hey Control plane, Start 10 applications of this. etc 
+                                Now Control plane, will start into action 
+                                    Checks for the available worker node, and starts app.
+                        We can interact with KubeCTL in two ways
+                            a. Declarative  : You write code in Manifest files/YAML files and K8s gives it to Control plan for the deployment.
+                            b. Imperative   : You tell your cluster for specific commands.
+    
+    Kubernetes Objects:
+
+        Pod         :   It is a scheduling unit.
+                        App is running in the worker node.
+                        Inside the pod you run your container.
+                        In one Pod you can run only one Container/one type of service.
+
+            
+
+        
+    Worker node contains --> Container Runtime; it containes --> Pod; it contains --> Container.
+
+    1. You create your applications into multiple parts (Create microservice)
+    2. Containerise the Microservices
+    3. Put container in Pods
+    4. Deploy these Pods to controlers
+
+    Architecture of Control Plane:
+        Control plane contains:
+            a. API server (Restful API) : All the communication to and from Control plane will happen via the API server. 
+                                    e.g. Send an YAML(Kubernetes Manifest files) file to Control plane via the Restful API using http protocol. 
+                                            It listens to https request on Port 443.
+            b. etcd : Its a database    : Stores the information about the cluster(state, config etc). If API server wants some info, then in connects etcd.
+            c. Controller manager       : Controller will take care of the desired state of the Pods, but the Controller manager manages all the controllers.
+                                            Controller has 4 functionalities (takes input from API server)
+                                                i. It maintains desired state
+                                                ii. It maintains the current state
+                                                iii. Make changes which are given by API server
+                                                iv. Differences
+            d. Scheduler                : Schedules stuff. Always listening to API server.
+                                            Scheduler is the one which will schedule the Pods on the worker nodes.
+                                            Checks which is the available node, and schedules the requirements.
+
+    Architecture of Worker Node:
+        Contains:
+            a. Kube-Proxy               :   Communicates with API server of Control plane.
+                                                It is responsible for all the networking. Helps cluster node communicate with outside network.
+                                                It makes sure, Every worker node will have its own IP address.
+            b. Kubelet                  :   Communicates with API server of Control plane.
+                                                It is present on every worker node.
+                                                Communicates with Contianer Runtime.
+                                                What ever the inputs are provided by API server, Kubelet tries to make/create it.
+                                                If the task was successful/not successful, it will report all to the API server.
+                                                Then Control plan will decide the next course of action.
+            c. Container Runtime.       :   Container runtime has the Pod and within Pod is the container.
+                                                It pulls image, push image, create container, stop/start containers etc.
+                                                Earlier Docker was supported in Kubernetes.
+                                                But then came the Container Runtime Interface (CRI)
+                                                Hence now ContainerD is the tool which will be used in here instead of Docker.
+                                                Docker does not support CRI. CRI is basically a interface which helps use various Container Runtimes.
+                                                ContainerD (Also CNCF project) supports CRI.
+    
+    K8s DNS     :      This is based on Core DNS.
+                    It basically adds IP addresses to every Pods.
+                    All the containers and pods will know how to communicate with each other.
+    
+    KubeConfig File :   It has all the config info and secret information. If you get the KubeConfig file of any cluster, you can access their cluster.
+
+########################################################################################################
+
+Installation:
+=============
+
+KubeCTL : Google and install KubeCTL
+MiniKube :  
+Kube adm
+Best Option: Cloud provider. (Civo)
+
+Lens (best tool to manage Kubernetes copmonents)
+Kubeshop(Monokle) (Manage and debug YAML files)
+Kubescape
+datree
+
+##########################
+
+Practical
+1. Instal Docker desktop, miniKube, KubeCtl 
+Start Docker desktop:
+~ kubectl version
+~ kubectl version output=yaml
+~ minikube start
+~ minikube status
+~ kubectl get pods
+~ kubectl get nodes
+~ minikube dashboard
+~ minikube docker-env
+~ docker container ls
+~ minikube ssh
+    # Inside the Container that minikube has created 
+    $ docker ps
+~ kubectl config view
+~ kubectl config current-context
+~ kubectl get all
+~ kubectl delete pod <pod_name>
+~ kubectl get deployment
+~ kubectl delete deployment <deployment_name>
